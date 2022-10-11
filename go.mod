@@ -10,7 +10,7 @@ require (
 	github.com/couchbase/go-couchbase v0.0.0-20200519150804-63f3cdb75e0d
 	github.com/couchbase/gomemcached v0.0.0-20200526233749-ec430f949808 // indirect
 	github.com/couchbase/goutils v0.0.0-20180530154633-e865a1461c8a // indirect
-	github.com/elastic/go-elasticsearch/v6 v6.8.5 // indirect
+	github.com/elastic/go-elasticsearch/v6 v6.8.5
 	github.com/elazarl/go-bindata-assetfs v1.0.0
 	github.com/go-redis/redis v6.14.2+incompatible
 	github.com/go-sql-driver/mysql v1.4.1
@@ -25,10 +25,12 @@ require (
 	github.com/pkg/errors v0.8.0 // indirect
 	github.com/shiena/ansicolor v0.0.0-20151119151921-a422bbe96644
 	github.com/ssdb/gossdb v0.0.0-20180723034631-88f6b59b84ec
+	github.com/stretchr/testify v1.8.0 // indirect
 	github.com/syndtr/goleveldb v0.0.0-20181127023241-353a9fca669c // indirect
 	github.com/wendal/errors v0.0.0-20130201093226-f66c77a7882b // indirect
 	golang.org/x/crypto v0.0.0-20191011191535-87dc89f01550
-	golang.org/x/tools v0.0.0-20200117065230-39095c1d176c
+	golang.org/x/net v0.0.0-20190620200207-3b0461eec859 // indirect
+	google.golang.org/appengine v1.6.7 // indirect
 	gopkg.in/yaml.v2 v2.2.8
 )
 

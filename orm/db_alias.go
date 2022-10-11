@@ -235,18 +235,6 @@ func detectTZ(al *alias) {
 			}
 		}
 
-		// get default engine from current database
-		row = al.DB.QueryRow("SELECT ENGINE, TRANSACTIONS FROM information_schema.engines WHERE SUPPORT = 'DEFAULT'")
-		var engine string
-		var tx bool
-		row.Scan(&engine, &tx)
-
-		if engine != "" {
-			al.Engine = engine
-		} else {
-			al.Engine = "INNODB"
-		}
-
 	case DRSqlite, DROracle:
 		al.TZ = time.UTC
 
@@ -263,7 +251,7 @@ func detectTZ(al *alias) {
 	}
 }
 
-func addAliasWthDB(aliasName, driverName string, db *sql.DB) (*alias, error) {
+func addAliasWthDB(aliasName, driverName string, engine string, db *sql.DB) (*alias, error) {
 	al := new(alias)
 	al.Name = aliasName
 	al.DriverName = driverName
@@ -272,7 +260,7 @@ func addAliasWthDB(aliasName, driverName string, db *sql.DB) (*alias, error) {
 		DB:      db,
 		stmts:   make(map[string]*sql.Stmt),
 	}
-
+	al.Engine = engine
 	if dr, ok := drivers[driverName]; ok {
 		al.DbBaser = dbBasers[dr]
 		al.Driver = dr
@@ -293,13 +281,13 @@ func addAliasWthDB(aliasName, driverName string, db *sql.DB) (*alias, error) {
 }
 
 // AddAliasWthDB add a aliasName for the drivename
-func AddAliasWthDB(aliasName, driverName string, db *sql.DB) error {
-	_, err := addAliasWthDB(aliasName, driverName, db)
+func AddAliasWthDB(aliasName, driverName string, engine string,db *sql.DB) error {
+	_, err := addAliasWthDB(aliasName, driverName, engine, db)
 	return err
 }
 
 // RegisterDataBase Setting the database connect params. Use the database driver self dataSource args.
-func RegisterDataBase(aliasName, driverName, dataSource string, params ...int) error {
+func RegisterDataBase(aliasName, driverName, dataSource, engine string, params ...int) error {
 	var (
 		err error
 		db  *sql.DB
@@ -312,7 +300,7 @@ func RegisterDataBase(aliasName, driverName, dataSource string, params ...int) e
 		goto end
 	}
 
-	al, err = addAliasWthDB(aliasName, driverName, db)
+	al, err = addAliasWthDB(aliasName, driverName, engine, db)
 	if err != nil {
 		goto end
 	}
