@@ -218,9 +218,11 @@ func detectTZ(al *alias) {
 
 	switch al.Driver {
 	case DRMySQL:
-		row := al.DB.QueryRow("SELECT TIMEDIFF(NOW(), UTC_TIMESTAMP)")
 		var tz string
-		row.Scan(&tz)
+		err := al.DB.DB.QueryRow("SELECT TIMEDIFF(NOW(), UTC_TIMESTAMP)").Scan(&tz)
+		if err != nil{
+			DebugLog.Printf("Detect DB timezone error: %s, use DefaultTimeLoc\n", err.Error())
+		}
 		if len(tz) >= 8 {
 			if tz[0] != '-' {
 				tz = "+" + tz
